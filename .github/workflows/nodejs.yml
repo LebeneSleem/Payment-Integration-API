@@ -1,57 +1,30 @@
-name: CI/CD Pipeline
+name: Node.js CI
 
 on:
   push:
-    branches: [main]  # Trigger workflow on push to 'main' branch
+    branches: [main]  # This triggers the workflow on push to the 'main' branch
   pull_request:
-    branches: [main]  # Trigger workflow on pull requests to 'main' branch
+    branches: [main]  # This triggers the workflow on pull requests to the 'main' branch
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Use latest Ubuntu environment
+    runs-on: ubuntu-latest  # The workflow will run on the latest Ubuntu environment
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]  # Test against multiple Node.js versions
+        node-version: [14.x, 16.x, 18.x]  # Define the Node.js versions you want to test against
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2  # Check out repository code
+    - name: Checkout code
+      uses: actions/checkout@v2  # Checkout the repository code
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3  # Set up Node.js
-        with:
-          node-version: ${{ matrix.node-version }}  # Use matrix versions
+    - name: Set up Node.js
+      uses: actions/setup-node@v3  # Set up Node.js in the CI environment
+      with:
+        node-version: ${{ matrix.node-version }}  # Use the versions defined in the matrix
 
-      - name: Install dependencies
-        run: npm ci  # Install dependencies
+    - name: Install dependencies
+      run: npm ci  # Install dependencies using npm ci for clean installs
 
-      - name: Run tests
-        run: npm test  # Run tests
-
-  deploy:
-    runs-on: ubuntu-latest  # Use latest Ubuntu environment
-    needs: build  # Run this job only after 'build' job is successful
-    if: github.ref == 'refs/heads/main'  # Deploy only for pushes to 'main'
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2  # Check out repository code
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3  # Set up Node.js
-        with:
-          node-version: 16  # Use a specific Node.js version for deployment
-
-      - name: Install dependencies
-        run: npm ci  # Install dependencies
-
-      - name: Deploy to Render
-        env:
-          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
-        run: |
-          curl -X POST \
-          -H "Authorization: Bearer $RENDER_API_KEY" \
-          -H "Content-Type: application/json" \
-          -d '{"serviceId":"<RENDER_SERVICE_ID>", "clearCache":true}' \
-          https://api.render.com/deploy
+    - name: Run tests
+      run: npm test  # Run tests using npm test
