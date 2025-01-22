@@ -1,5 +1,9 @@
+A basic RESTful API that allows small businesses to accept payments from customers using Paystack payment gateway. Also focuses on minimal customer information (name, email, amount and telephone number).
+The API is implemented without user authentication, uses versioning, and automate testing and deployment through CI/CD.
+
+
 ## Local Setup and Running Tests
-## Local Development Prerequisites
+# Local Development Prerequisites
 1. Install Node.js (v16 or higher): Follow the installation guide on Node.js official website.
 
 2. Install npm: npm comes with Node.js, so it's installed automatically when you install Node.js.
@@ -26,7 +30,7 @@
     http://localhost:2012
 
 
-## Run Tests with Jest
+# Run Tests with Jest
 Run the tests: To run the tests, execute the following:
 npm test
 
@@ -37,12 +41,12 @@ Snapshots:   0 total
 Time:        1.301 s
 
 
-## Access the Deployed API
+# Access the Deployed API
 You can access the deployed API at:
     https://payment-integration-api-1.onrender.com/
 
 
-## Test the API with Postman
+# Test the API with Postman
 1. Initiate Payment (POST request)
 URL: https://payment-integration-api-1.onrender.com/api/v1/payments
 Body:
