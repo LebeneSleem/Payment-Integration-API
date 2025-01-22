@@ -1,0 +1,30 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [main]  # This triggers the workflow on push to the 'main' branch
+  pull_request:
+    branches: [main]  # This triggers the workflow on pull requests to the 'main' branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # The workflow will run on the latest Ubuntu environment
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]  # Define the Node.js versions you want to test against
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2  # Checkout the repository code
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3  # Set up Node.js in the CI environment
+      with:
+        node-version: ${{ matrix.node-version }}  # Use the versions defined in the matrix
+
+    - name: Install dependencies
+      run: npm ci  # Install dependencies using npm ci for clean installs
+
+    - name: Run tests
+      run: npm test  # Run tests using npm test
